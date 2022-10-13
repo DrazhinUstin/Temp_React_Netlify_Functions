@@ -7,6 +7,21 @@ const client = contentful.createClient({
 });
 
 exports.handler = async function (event, context) {
+    const { id } = event.queryStringParameters;
+    if (id) {
+        try {
+            const entry = await client.getEntry(id);
+            return {
+                statusCode: 200,
+                body: JSON.stringify(entry),
+            };
+        } catch (error) {
+            return {
+                statusCode: 404,
+                body: `Product with id: ${id} not found`,
+            };
+        }
+    }
     try {
         const entries = await client.getEntries({
             content_type: 'eCommerceReact',

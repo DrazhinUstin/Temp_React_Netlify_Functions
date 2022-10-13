@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Airtable = () => {
@@ -39,13 +40,13 @@ const Airtable = () => {
                         },
                     } = product;
                     return (
-                        <article key={id} className='product'>
+                        <Link to={id} key={id} className='product'>
                             <img src={url} alt={title} />
                             <div className='info'>
                                 <h5>{title}</h5>
                                 <h5 className='price'>${(price / 100).toFixed(2)}</h5>
                             </div>
-                        </article>
+                        </Link>
                     );
                 })}
             </div>
