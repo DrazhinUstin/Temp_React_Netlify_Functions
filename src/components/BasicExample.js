@@ -1,22 +1,12 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import useAxios from '../hooks/useAxios';
+import Loading from './Loading';
 
 const BasicExample = () => {
-    const [products, setProducts] = useState([]);
+    const { isLoading, data: products } = useAxios(
+        'https://temporary-netlify-functions.netlify.app/api/2-basic-api'
+    );
 
-    useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const { data } = await axios.get(
-                    'https://temporary-netlify-functions.netlify.app/api/2-basic-api'
-                );
-                setProducts(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getProducts();
-    }, []);
+    if (isLoading) return <Loading />;
 
     return (
         <section className='section section-center'>

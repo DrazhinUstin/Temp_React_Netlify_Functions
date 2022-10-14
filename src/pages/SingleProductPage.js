@@ -1,30 +1,11 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import useAxios from '../hooks/useAxios';
 import Loading from '../components/Loading';
 import ErrorPage from './ErrorPage';
 
 const SingleProductPage = () => {
     const { id } = useParams();
-    const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
-    const [product, setProduct] = useState(null);
-
-    useEffect(() => {
-        const getProduct = async () => {
-            setIsLoading(true);
-            try {
-                const { data } = await axios.get(`/api/airtable?id=${id}`);
-                setProduct(data);
-                setIsError(false);
-            } catch (error) {
-                console.log(error.response.data);
-                setIsError(true);
-            }
-            setIsLoading(false);
-        };
-        getProduct();
-    }, [id]);
+    const { isLoading, isError, data: product } = useAxios(`/api/airtable?id=${id}`);
 
     if (isLoading) return <Loading />;
 

@@ -1,21 +1,11 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import useAxios from '../hooks/useAxios';
+import Loading from './Loading';
 
 const Airtable = () => {
-    const [products, setProducts] = useState([]);
+    const { isLoading, data: products } = useAxios('/api/airtable');
 
-    useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const { data } = await axios.get('/api/airtable');
-                setProducts(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getProducts();
-    }, []);
+    if (isLoading) return <Loading />;
 
     return (
         <section className='section section-center'>
